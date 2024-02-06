@@ -4,14 +4,19 @@
 	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-<security:http>
+
+<security:http auto-config="true" use-expressions="true">
 
 	<!-- 접근제한 설정 -->
 	<security:intercept-url pattern="/sample/all" access="permitAll"/>
 	
 	<security:intercept-url pattern="/sample/member" access="hasRole('ROLE_MEMBER')"/>
 	
+	<security:intercept-url pattern="/sample/admin" access="hasRole('ROLE_ADMIN')"/>
+	
 	<security:form-login/>
+	
+	<security:access-denied-handler error-page="/accessError"/>
 </security:http>
 
 <!-- 인증과 권한에 대한 실제 처리 -->
@@ -21,7 +26,9 @@
 		
 		<security:user-service>
 			
-			<security:user name="member" password="member" authorities="ROLE_MEMBER"/>
+			<security:user name="member" password="{noop}member" authorities="ROLE_MEMBER"/>
+			
+			<security:user name="admin" password="{noop}admin" authorities="ROLE_MEMBER, ROLE_ADMIN"/>
 		
 		</security:user-service>
 	
