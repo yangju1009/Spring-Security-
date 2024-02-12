@@ -9,9 +9,9 @@
 </head>
 <body>
 잘 됩니다 <br>
-<a href="all">all</a> <br>
-<a href="member">member</a> <br>
-<a href="admin">admin</a> <br>
+<a href="/sample/all">all</a> <br>
+<a href="/sample/member">member</a> <br>
+<a href="/sample/admin">admin</a> <br>
 
 </body>
 </html>

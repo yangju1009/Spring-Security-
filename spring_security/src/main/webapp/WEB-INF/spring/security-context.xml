@@ -7,7 +7,14 @@
 
 <bean id="customAccessDenied" class="com.project.security.CustomAccessDeniedHandler"></bean>
 
-<security:http auto-config="true" use-expressions="true">
+<bean id="customLoginSuccess" class="com.project.security.CustomLoginSuccessHandler"></bean>
+
+<!-- <bean id="customPasswordEncoder" class="com.project.security.CustomNoOpPasswordEncoder"></bean> -->
+
+<!-- bcrypt 암호화를 빈으로 지정 -->
+<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
+
+<security:http>
 
 	<!-- 접근제한 설정 -->
 	<security:intercept-url pattern="/sample/all" access="permitAll"/>
@@ -19,7 +26,9 @@
 	<security:access-denied-handler ref="customAccessDenied"/>
 	
 	<!-- <security:form-login/> -->
-	<security:form-login login-page="/customLogin" />
+	<security:form-login login-page="/customLogin" authentication-success-handler-ref="customLoginSuccess"/>
+	
+	<security:logout logout-url="/customLogout" invalidate-session="true"/>
 	
 	<!-- <security:access-denied-handler error-page="/accessError"/> -->
 	
@@ -30,13 +39,20 @@
 	
 	<security:authentication-provider>
 		
-		<security:user-service>
+		<!-- <security:jdbc-user-service data-source-ref="dataSource"/> -->
+		<security:jdbc-user-service data-source-ref="dataSource" users-by-username-query="select userid, userpw, enabled from tbl_member where userid = ?" 
+		authorities-by-username-query="select userid, auth from tbl_member_auth where userid = ?"/>
+		
+		<!-- <security:password-encoder ref="bcryptPasswordEncoder"/> -->
+		
+		<!-- <security:password-encoder ref="customPasswordEncoder"/> -->
 			
-			<security:user name="member" password="{noop}member" authorities="ROLE_MEMBER"/>
+			<!-- <security:user name="member" password="{noop}member" authorities="ROLE_MEMBER"/>
 			
 			<security:user name="admin" password="{noop}admin" authorities="ROLE_MEMBER, ROLE_ADMIN"/>
 		
-		</security:user-service>
+		</security:user-service> -->
+		<security:password-encoder ref="bcryptPasswordEncoder"/>
 	
 	</security:authentication-provider>
 
