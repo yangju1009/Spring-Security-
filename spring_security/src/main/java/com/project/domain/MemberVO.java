@@ -56,6 +56,54 @@ public class MemberVO {
 		this.userName = userName;
 	}
 
+	
+
+	public String getUserpw() {
+		return userpw;
+	}
+
+
+
+	public void setUserpw(String userpw) {
+		this.userpw = userpw;
+	}
+
+
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+
+
+	public Date getRegDate() {
+		return regDate;
+	}
+
+
+
+	public void setRegDate(Date regDate) {
+		this.regDate = regDate;
+	}
+
+
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
 
 
 	@Override
