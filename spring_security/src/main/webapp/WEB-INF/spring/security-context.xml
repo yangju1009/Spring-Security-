@@ -4,6 +4,7 @@
 	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+		
 
 <bean id="customAccessDenied" class="com.project.security.CustomAccessDeniedHandler"></bean>
 
@@ -32,7 +33,10 @@
 	
 	<security:logout logout-url="/customLogout" invalidate-session="true"/>
 	
-	<!-- <security:access-denied-handler error-page="/accessError"/> -->
+	<!-- 자동 로그인 -->
+	<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800" />
+	
+	<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me, JSESSION_ID"/>
 	
 </security:http>
 
@@ -47,5 +51,6 @@
 	</security:authentication-provider>
 
 </security:authentication-manager>
+
 
 </beans>
